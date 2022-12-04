@@ -1,19 +1,19 @@
 package com.example.CRMProject.contact.model;
 
-import com.example.CRMProject.company.Company;
+import com.example.CRMProject.company.model.Company;
 import com.example.CRMProject.task.model.Task;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
+import lombok.Builder;
 import org.hibernate.annotations.Cascade;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
 @Entity
-@Table(name = "Contact")
+@Table(name = "contact")
 public class Contact {
 
     @Id
@@ -75,6 +75,22 @@ public class Contact {
 
     public Contact() {
 
+    }
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
+    }
+
+    public List<Task> getTask() {
+        return task;
+    }
+
+    public void setTask(List<Task> task) {
+        this.task = task;
     }
 
     public Long getId() {
@@ -141,14 +157,6 @@ public class Contact {
         this.update = update;
     }
 
-    public Company getCompany() {
-        return company;
-    }
-
-    public void setCompany(Company company) {
-        this.company = company;
-    }
-
     @Override
     public String toString() {
         return "Contact{" +
@@ -160,7 +168,6 @@ public class Contact {
                 ", post='" + post + '\'' +
                 ", creation=" + creation +
                 ", update=" + update +
-                ", company=" + company +
                 '}';
     }
 }

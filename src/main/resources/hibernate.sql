@@ -7,6 +7,7 @@ create table Company
     descriptions varchar(2000),
     type         varchar(50)  not null,
     website      varchar(50),
+    inn          int          not null,
     creation     timestamp default now(),
     update       timestamp default now()
 );
@@ -23,7 +24,7 @@ create table Contact
     creation     timestamp default now(),
     update       timestamp default now()
 );
-drop table Contact;
+drop table Contact, Company,Task;
 
 create table Task
 (

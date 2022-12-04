@@ -1,13 +1,12 @@
 package com.example.CRMProject.task.model;
 
-import com.example.CRMProject.company.Company;
+import com.example.CRMProject.company.model.Company;
 import com.example.CRMProject.contact.model.Contact;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
 @Table(name = "Task")
@@ -40,6 +39,7 @@ public class Task {
     @JoinColumn(name = "contact_id", referencedColumnName = "id")
     private Contact contacts;
 
+
     public Task() {
     }
 
@@ -51,6 +51,22 @@ public class Task {
         LocalDateTime date = LocalDateTime.now();
         this.creation = date;
         this.update = date;
+    }
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
+    }
+
+    public Contact getContacts() {
+        return contacts;
+    }
+
+    public void setContacts(Contact contacts) {
+        this.contacts = contacts;
     }
 
     public Long getId() {
@@ -101,31 +117,15 @@ public class Task {
         this.executor = executor;
     }
 
-    public Company getCompany() {
-        return company;
-    }
-
-    public void setCompany(Company company) {
-        this.company = company;
-    }
-
-    public Contact getContacts() {
-        return contacts;
-    }
-
-    public void setContacts(Contact contacts) {
-        this.contacts = contacts;
-    }
-
     @Override
     public String toString() {
         return "Task{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", descriptions='" + descriptions + '\'' +
+                ", creation=" + creation +
+                ", update=" + update +
                 ", executor='" + executor + '\'' +
-                ", company=" + company +
-                ", contacts=" + contacts +
                 '}';
     }
 }

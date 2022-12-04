@@ -1,4 +1,4 @@
-package com.example.CRMProject.company;
+package com.example.CRMProject.company.model;
 
 import com.example.CRMProject.contact.model.Contact;
 import com.example.CRMProject.task.model.Task;
@@ -9,12 +9,13 @@ import jakarta.validation.constraints.Size;
 
 import org.hibernate.annotations.Cascade;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 @Entity
 @Table(name = "Company")
-public class Company {
+public class Company  {
 
     @Id
     @Column(name = "Id")
@@ -90,6 +91,22 @@ public class Company {
         this.update = date;
     }
 
+    public List<Contact> getContacts() {
+        return contacts;
+    }
+
+    public void setContacts(List<Contact> contacts) {
+        this.contacts = contacts;
+    }
+
+    public List<Task> getTask() {
+        return task;
+    }
+
+    public void setTask(List<Task> task) {
+        this.task = task;
+    }
+
     public Long getId() {
         return id;
     }
@@ -146,12 +163,12 @@ public class Company {
         this.website = website;
     }
 
-    public List<Contact> getContacts() {
-        return contacts;
+    public Long getINN() {
+        return INN;
     }
 
-    public void setContacts(List<Contact> contacts) {
-        this.contacts = contacts;
+    public void setINN(Long INN) {
+        this.INN = INN;
     }
 
     public LocalDateTime getCreation() {
@@ -170,7 +187,6 @@ public class Company {
         this.update = update;
     }
 
-
     @Override
     public String toString() {
         return "Company{" +
@@ -181,6 +197,7 @@ public class Company {
                 ", descriptions='" + descriptions + '\'' +
                 ", type='" + type + '\'' +
                 ", website='" + website + '\'' +
+                ", INN=" + INN +
                 ", creation=" + creation +
                 ", update=" + update +
                 '}';

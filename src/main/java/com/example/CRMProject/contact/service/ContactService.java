@@ -1,50 +1,65 @@
 package com.example.CRMProject.contact.service;
 
 import com.example.CRMProject.contact.model.Contact;
-
 import com.example.CRMProject.contact.repository.ContactRepository;
+import lombok.RequiredArgsConstructor;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ContactService implements ContactRepository {
     private final SessionFactory sessionFactory;
 
 
-    @Autowired
-    public ContactService(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-
-    }
-
+    /**
+     * Показать все контакты
+     *
+     * @return
+     */
     @Override
     @Transactional(readOnly = true)
-    public List<Contact> index() {
-        System.out.println("Предоставлены все контакты");
+    public List<Contact> findAll() {
         Session session = sessionFactory.getCurrentSession();
         return session.createQuery("select c from Contact c", Contact.class).getResultList();
     }
 
+    /**
+     * Поиск контакта по ID
+     *
+     * @param id
+     * @return
+     */
     @Override
     @Transactional(readOnly = true)
-    public Contact show(Long id) {
+    public Contact findById(Long id) {
         Session session = sessionFactory.getCurrentSession();
         return session.get(Contact.class, id);
     }
 
+    /**
+     * Сохранение контакта
+     *
+     * @param contact
+     */
     @Override
     @Transactional()
-    public void save(Contact contact) {
+    public Contact save(Contact contact) {
         Session session = sessionFactory.getCurrentSession();
         session.persist(contact);
-        this.index();
+        return contact;
     }
 
+    /**
+     * Обновление контакта
+     *
+     * @param id
+     * @param updatedContact
+     */
     @Override
     @Transactional(readOnly = true)
     public void update(Long id, Contact updatedContact) {
@@ -56,34 +71,71 @@ public class ContactService implements ContactRepository {
         contact.setEmail(updatedContact.getEmail());
         contact.setPhoneNumber(updatedContact.getPhoneNumber());
         contact.setDescriptions(updatedContact.getDescriptions());
-        this.index();
+
+
     }
 
+    /**
+     * Удаление Контакта
+     *
+     * @param id
+     */
     @Override
     @Transactional(readOnly = true)
     public void delete(Long id) {
         Session session = sessionFactory.getCurrentSession();
         session.remove(session.get(Contact.class, id));
         System.out.println("Контакт с ID: " + id + " уделен");
-        this.index();
+
     }
 
+    /**
+     * Поиск контакта по имени
+     *
+     * @param name
+     */
     @Override
     @Transactional(readOnly = true)
-    public List<Contact> searchByFirstLettersName(String firstName) {
+    public void findByName(String name) {
+        Session session = sessionFactory.getCurrentSession();
+        session.createQuery("select  c from Contact c where c.name=name", Contact.class);
+    }
+
+    /**
+     * Поиск контакта по номеру телефона
+     *
+     * @param phoneNumber
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public void findByPhoneNumber(String phoneNumber) {
+        Session session = sessionFactory.getCurrentSession();
+        session.createQuery("select  c from Contact c where c.phoneNumber=phoneNumber", Contact.class);
+    }
+
+    /**
+     * Поиск контакта по первым символом
+     *
+     * @param name
+     * @return
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public List<Contact> findByNameFirst(String name) {
         Session session = sessionFactory.getCurrentSession();
         return session.createQuery("select c from Contact c where c.name like 'T%'", Contact.class).getResultList();
     }
 
-    @Override
-    public void searchNameContact(String name) {
-        Session session = sessionFactory.getCurrentSession();
-        session.createQuery("select c from Contact c where c.name=name");
-    }
+//    /**
+//     * Поиск контактов по компании
+//     *
+//     * @param company
+//     */
 //    @Override
 //    @Transactional(readOnly = true)
-//    public List<Contact> searchByCompanyLettersName(String company) {
+//    public List<Contact> findByNameCompany(List<Company> company) {
 //        Session session = sessionFactory.getCurrentSession();
-//        return session.createQuery("select c from Company c where c.name like 'T%'", Company.class).getResultList();
+//        session.createQuery("select c from Contact c where c.company=company", Contact.class).getResultList();
+//
 //    }
 }
